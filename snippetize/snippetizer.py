@@ -4,6 +4,7 @@ from keynote_formatter import KeynoteFormatter
 from pygments import highlight
 from pygments.lexers import get_lexer_for_filename
 from shutil import copyfile
+from snippetize.extractor import Extractor
 from snippetize.finder import Finder
 from snippetize.replacer import Replacer
 from xml.dom import minidom
@@ -16,13 +17,18 @@ class Snippetizer:
         config = {}
         execfile(config_file, config)
         self.base = config['base']
-        self.styles = config['styles']
-        self.snippets = config['snippets']
-        self.formatter = KeynoteFormatter(self.styles)
+        self.extractor = Extractor(config['snippets'])
+        self.formatter = KeynoteFormatter(config['styles'])
 
     def snippetize(self):
-        with ZipFile('all.key') as file:
-            raw = file.read('index.apxl')
+        with ZipFile('all.key') as original:
+            with ZipFile('out.key', 'w') as updated:
+                for item in original.filelist:
+                    if item.filename != 'index.apxl':
+                        contents = original.read(item.filename)
+                        updated.writestr(item, contents)
+            raw = original.read('index.apxl')
+
 
         doc = minidom.parseString(raw)
         pattern = '//sf:shape[starts-with(@sf:href,\'http://localhost/\')]'
@@ -41,22 +47,20 @@ class Snippetizer:
 </key:presentation>
 '''
 
-        doc = minidom.parseString(raw)
         replacer = Replacer(doc, template)
 
-        copyfile('all.key', 'out.key')
+        names = finder.snippets()
+        for name in names:
+            filename, _, part = name.partition('?')
+            path = expanduser(join(self.base, filename))
+            with open(path) as file:
+                code = self.extractor.extract(file.read(), part)
+            lexer = get_lexer_for_filename(filename, stripall=True)
+            snippet = highlight(code, lexer, self.formatter)
 
-        with ZipFile('out.key', 'w') as zipfile:
-            names = finder.snippets()
-            for name in names:
-                filename, part = name.split('?')
-                path = expanduser(join(self.base, filename))
-                with open(path) as file:
-                    code = file.read()
-                lexer = get_lexer_for_filename(filename, stripall=True)
-                snippet = highlight(code, lexer, self.formatter)
+            parent = '//sf:shape[@sf:href="http://localhost/%s"]//sf:text-storage' % name
+            child = 'sf:text-body'
+            replacer.replace(parent, child, snippet)
 
-                parent = '//sf:shape[@sf:href="http://localhost/%s"]//sf:text-storage' % name
-                child = 'sf:text-body'
-                replacer.replace(parent, child, snippet)
-            zipfile.writestr('index.apxl', doc.toxml().encode('utf-8'))
+        with ZipFile('out.key', 'a') as updated:
+            updated.writestr('index.apxl', doc.toxml().encode('utf-8'))
