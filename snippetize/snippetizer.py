@@ -13,9 +13,10 @@ import codecs
 import snippetize.core_ext
 
 class Snippetizer:
-    def __init__(self, keynote_file, out_file, config_file):
+    def __init__(self, keynote_file, out_file, config_file, only = None):
         self.keynote_file = keynote_file
         self.out_file     = out_file
+        self.only         = only
 
         config = {}
         execfile(config_file, config)
@@ -52,7 +53,7 @@ class Snippetizer:
 
         replacer = Replacer(doc, template)
 
-        names = finder.snippets()
+        names = self.only and [self.only] or finder.snippets()
 
         for name in names:
             filename, _, part = name.partition('?')
