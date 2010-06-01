@@ -1,4 +1,5 @@
 from itertools import dropwhile, takewhile
+from sys import maxint
 import re
 
 class Extractor:
@@ -23,7 +24,7 @@ def spaces(str):
     return re.match(' *', str).end()
 
 def unindent(lines):
-    amount = reduce(lambda s, t: min(spaces(s), spaces(t)), lines)
+    amount = reduce(lambda n, s: min(n, spaces(s)), lines, maxint)
     return [line[amount:] for line in lines]
 
 class OnePast:
