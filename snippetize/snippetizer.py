@@ -13,7 +13,10 @@ import codecs
 import snippetize.core_ext
 
 class Snippetizer:
-    def __init__(self, keynote_file, config_file):
+    def __init__(self, keynote_file, out_file, config_file):
+        self.keynote_file = keynote_file
+        self.out_file     = out_file
+
         config = {}
         execfile(config_file, config)
         self.base = config['base']
@@ -21,8 +24,8 @@ class Snippetizer:
         self.formatter = KeynoteFormatter(config['styles'])
 
     def snippetize(self):
-        with ZipFile('all.key') as original:
-            with ZipFile('out.key', 'w') as updated:
+        with ZipFile(self.keynote_file) as original:
+            with ZipFile(self.out_file, 'w') as updated:
                 for item in original.filelist:
                     if item.filename != 'index.apxl':
                         contents = original.read(item.filename)
@@ -50,17 +53,21 @@ class Snippetizer:
         replacer = Replacer(doc, template)
 
         names = finder.snippets()
+
         for name in names:
             filename, _, part = name.partition('?')
             path = expanduser(join(self.base, filename))
+
             with open(path) as file:
                 code = self.extractor.extract(file.read(), part)
+
             lexer = get_lexer_for_filename(filename, stripall=True)
             snippet = highlight(code, lexer, self.formatter)
 
             parent = '//sf:shape[@sf:href="http://localhost/%s"]//sf:text-storage' % name
             child = 'sf:text-body'
+
             replacer.replace(parent, child, snippet)
 
-        with ZipFile('out.key', 'a') as updated:
+        with ZipFile(self.out_file, 'a') as updated:
             updated.writestr('index.apxl', doc.toxml().encode('utf-8'))
