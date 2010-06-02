@@ -2,6 +2,7 @@
 
 from xml.dom import minidom
 from zipfile import ZipFile
+import os
 import re
 import sys
 import xpath
@@ -29,6 +30,26 @@ if __name__ == '__main__':
         'Name.Function':'sf:p/sf:span[contains(text(),\'meth\')]',
         'Name.Class':'sf:p/sf:span[contains(text(),\'Cls\')]',
         }
+
+    print '''# Adjust this path to where your
+# to-be-displayed source code lives.
+#'''
+
+    print "base = '%s'" % os.getcwd()
+
+    print '''
+# Add the names and start/end lines
+# of your code snippets here.
+# For example,
+#   snippets = {'bar': ['def bar', 'pass']}
+#
+snippets = {}
+'''
+
+    print '''# This section is generated from the
+# styles in your presentation.  Best
+# not to change it.
+#'''
 
     print 'styles = {'
 

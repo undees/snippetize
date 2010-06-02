@@ -1,6 +1,8 @@
+import os
+
 # Where your to-be-displayed source code lives.
 #
-base = '~/src/snippetize'
+base = os.getcwd()
 
 # Apple assigns these colors based on your style slide.
 #
