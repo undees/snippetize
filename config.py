@@ -4,9 +4,15 @@ base = '~/src/snippetize'
 
 # Apple assigns these colors based on your style slide.
 #
-styles = {'Paragraph':373, 'Keyword':50, 'Operator':50,
-          'Comment':53, 'Literal':51, 'Name.Function':52,
-          'Name.Class':52}
+styles = {
+    'Keyword':41,
+    'Name.Class':40,
+    'Name.Function':47,
+    'Literal':46,
+    'Paragraph':387,
+    'Commment':45,
+    'Operator':41,
+}
 
 # Parts of files you wish to extract.
 #

@@ -15,6 +15,4 @@ class Foo:
     extractor = Extractor(parts)
 
     assert(extractor.extract(code) == code)
-    print('=== Extracted:')
-    print(extractor.extract(code, 'bar'))
     assert(extractor.extract(code, 'bar') == 'def bar:\n  pass')
