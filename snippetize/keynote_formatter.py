@@ -3,7 +3,21 @@ from pygments.token import Token
 from cgi import escape
 
 class KeynoteFormatter(Formatter):
+    '''Pygments formatter that outputs XML for Keynote slides.'''
+
     def __init__(self, styles):
+        '''Takes a dictionary from style names to numbers
+        (these numbers are assigned by Keynote).  Example:
+            {
+                'Keyword':41,
+                'Name.Class':40,
+                'Name.Function':47,
+                'Literal':46,
+                'Paragraph':387,
+                'Commment':45,
+                'Operator':41,
+            }'''
+
         Formatter.__init__(self)
 
         def style_name(item):
@@ -17,6 +31,9 @@ class KeynoteFormatter(Formatter):
         self.styles = dict(map(style_name, styles.items()))
 
     def style_for_ttype(self, ttype):
+        '''Called by format() to find the right character /
+        paragraph style for the given type of text.'''
+
         parts = str(ttype).split('.')
         name = '.'.join(parts[1:])
         gen_name = parts[1]
@@ -29,6 +46,9 @@ class KeynoteFormatter(Formatter):
             return None
 
     def format(self, tokensource, outfile):
+        '''Called by Pygments when it's time to write a chunk
+        of code to an output stream.'''
+
         outfile.write('<sf:p sf:style="%s" sf:list-level="1">'
                       % self.styles['Paragraph'])
 
