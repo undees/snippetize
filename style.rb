@@ -5,4 +5,4 @@ c = class Cls
     :symbol
   end
 end
-puts 'for keynote' # Comment
+puts 'for keynote' # C
