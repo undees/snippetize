@@ -1,7 +1,7 @@
 Welcome
 =======
 
-Snippetize helps you keep the code snippets on your presentation slides up to date.  It's designed to work with Keynote, but could be adapted to any presentation software capable of saving XML (including OpenOffice and PowerPoint).
+Snippetize helps you keep the code snippets on your presentation slides up to date.  It's designed to work with Keynote '09, but could be adapted to any presentation software capable of saving XML (including OpenOffice and PowerPoint).
 
 Install
 -------
@@ -14,11 +14,7 @@ Do these steps once on your machine:
 
      easy_install py-dom-xpath
 
-2. Set up Keynote to save uncompressed presentations (no ``sudo``)::
-
-     defaults write com.apple.iWork.Keynote SaveCompressionLevel 0
-
-3. Check out Snippetize from http://github.com/undees/snippetize to a directory on your hard drive somewhere.
+2. Put the Snippetize code from http://github.com/undees/snippetize in a directory on your hard drive somewhere.
 
 Prepare
 -------
