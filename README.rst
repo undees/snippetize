@@ -55,7 +55,7 @@ Do these steps once for each new presentation.
 
   iv. Bring up the Inspector window for the text box containing your code.
 
-  v. Make the entire box a hyperlink to ``http://localhost:8801/style``.  (You `don't` need to make a web page available at this address; this is just a special URL to help Snippetize find this slide.)
+  v. Make the entire box a hyperlink to ``http://localhost/style``.  (You `don't` need to make a web page available at this address; this is just a special URL to help Snippetize find this slide.)
 
   vi. From the Slide menu, choose "Skip Slide" to make this slide hidden.
 

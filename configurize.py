@@ -17,7 +17,7 @@ if __name__ == '__main__':
     zf = ZipFile(key_file)
     raw = zf.read('index.apxl')
     doc = minidom.parseString(raw)
-    slide_path = '//sf:shape[@sf:href=\'http://localhost:8081/style\']'
+    slide_path = '//sf:shape[@sf:href=\'http://localhost\']'
     slide = xpath.find(slide_path, doc)[0]
     body = slide.getElementsByTagName('sf:text-body')[0]
 
