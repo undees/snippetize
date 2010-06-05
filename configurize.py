@@ -25,7 +25,7 @@ if __name__ == '__main__':
         'Paragraph':'sf:p[contains(text(),\'value\')]',
         'Keyword':'sf:p/sf:span[contains(text(),\'def\')]',
         'Operator':'sf:p/sf:span[contains(text(),\'=\')]',
-        'Commment':'sf:p/sf:span[contains(text(),\'# \')]',
+        'Comment':'sf:p/sf:span[contains(text(),\'# \')]',
         'Literal':'sf:p/sf:span[contains(text(),\'Lit\')]',
         'Name.Function':'sf:p/sf:span[contains(text(),\'meth\')]',
         'Name.Class':'sf:p/sf:span[contains(text(),\'Cls\')]',

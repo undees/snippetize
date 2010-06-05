@@ -12,7 +12,7 @@ styles = {
     'Name.Function':47,
     'Literal':46,
     'Paragraph':387,
-    'Commment':45,
+    'Comment':45,
     'Operator':41,
 }
 
